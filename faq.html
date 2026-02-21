@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | SafeTrade Insider Intelligence</title>
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #f59e0b;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-main); margin: 0; line-height: 1.6; }
+        .container { max-width: 800px; margin: 0 auto; padding: 60px 20px; }
+        h1 { color: var(--accent); margin-bottom: 40px; text-align: center; }
+        .faq-item { background: var(--card); border: 1px solid #334155; border-radius: 12px; margin-bottom: 15px; overflow: hidden; }
+        .faq-question { padding: 20px; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
+        .faq-question:hover { background: #2d3a4f; }
+        .faq-answer { padding: 0 20px 20px 20px; color: var(--text-dim); font-size: 0.95rem; display: none; }
+        .faq-item.active .faq-answer { display: block; border-top: 1px solid #334155; padding-top: 15px; }
+        .back-link { color: var(--accent); text-decoration: none; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Return to Intelligence Hub</a>
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq-item">
+            <div class="faq-question">What exactly is SafeTrade Insider? <span>+</span></div>
+            <div class="faq-answer">SafeTrade Insider is an autonomous financial intelligence platform. We use an integrated AI engine to synthesize global macro data (FRED), on-chain movements (Glassnode/CoinGecko), and real-time sentiment to provide institutional-grade market directives for retail and professional investors.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Is the AI "trading" for me? <span>+</span></div>
+            <div class="faq-answer">No. SafeTrade Insider is an <strong>educational and informational service</strong>. We provide intelligence and directives, but we never take custody of your funds or execute trades on your behalf. You maintain 100% control of your assets.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How does the "Zero-Loss" philosophy work? <span>+</span></div>
+            <div class="faq-answer">The "Zero-Loss" mindset isn't a guarantee that every trade wins; it's a commitment to <strong>capital preservation</strong>. Our signals prioritize risk-adjusted returns, using macro data to identify when to sit in "Cash/Stables" to avoid major market drawdowns.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Are these signals financial advice? <span>+</span></div>
+            <div class="faq-answer">Absolutely not. All content is for informational purposes only. Digital assets are highly volatile. You should always consult with a certified financial advisor before making investment decisions in the 2026 market.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">How do you handle 2026 regulatory changes? <span>+</span></div>
+            <div class="faq-answer">We monitor the latest SEC, CFTC, and FIRS (Nigeria) frameworks. Our AI is programmed to weight regulatory news heavily, ensuring our readers are never blindsided by "enforcement-by-regulation" events.</div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question">Can I cancel my subscription? <span>+</span></div>
+            <div class="faq-answer">Yes. You can unsubscribe at any time using the link at the bottom of every email. Your data will be purged from our active sender list within 24 hours.</div>
+        </div>
+
+    </div>
+
+    <script>
+        document.querySelectorAll('.faq-question').forEach(item => {
+            item.addEventListener('click', () => {
+                const parent = item.parentElement;
+                parent.classList.toggle('active');
+                item.querySelector('span').innerText = parent.classList.contains('active') ? '-' : '+';
+            });
+        });
+    </script>
+</body>
+</html>
