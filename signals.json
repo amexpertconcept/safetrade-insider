@@ -1,1 +1,14 @@
-{"ai_signal_name": "Syncing...", "ai_primary_driver": "Loading...", "ai_safetrade_action": "Updating..."}
+{
+  "btc_price": "0.00",
+  "btc_change": "0.00",
+  "eth_price": "0.00",
+  "eth_change": "0.00",
+  "dxy_value": "0.00",
+  "dxy_change": "0.00",
+  "ai_signal_name": "INITIALIZING",
+  "ai_primary_driver": "System start-up...",
+  "ai_safetrade_action": "Waiting for first automation cycle.",
+  "sentiment_label": "Neutral",
+  "sentiment_value": "50",
+  "sentiment_analysis_text": "Syncing with global markets..."
+}
