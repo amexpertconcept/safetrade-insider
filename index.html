@@ -161,38 +161,46 @@
 </div>
 
 <script>
-    // SENDER.NET INTEGRATION
-    (function (s, e, n, d, er) {
-        s['Sender'] = er; s[er] = s[er] || function () { (s[er].q = s[er].q || []).push(arguments) }, s[er].l = 1 * new Date();
-        var a = e.createElement(n), m = e.getElementsByTagName(n)[0]; a.async = 1; a.src = d; m.parentNode.insertBefore(a, m)
-    })(window, document, 'script', 'https://cdn.sender.net/accounts_resources/universal.js', 'sender');
-    sender('7745039a1c5023');
+    // Link to your signals.json file on GitHub
+    const dataUrl = 'signals.json'; 
 
-    document.getElementById('newsletter-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        sender('track', 'subscribe', { email: email });
-        alert("Welcome to the Insider Network!");
-        window.location.href = "index.html";
-    });
-
-    // DYNAMIC SIGNAL POLLING (IF SIGNALS.JSON EXISTS)
-    async function fetchLatestSignals() {
+    async function updateDashboard() {
         try {
-            const res = await fetch('signals.json?t=' + Date.now());
-            if (res.ok) {
-                const data = await res.json();
-                document.getElementById('signal-name').innerText = data.ai_signal_name;
-                document.getElementById('signal-driver').innerText = data.ai_primary_driver;
-                document.getElementById('signal-action').innerText = data.ai_safetrade_action;
-            }
-        } catch (e) { console.log("Manual data mode active."); }
+            const response = await fetch(dataUrl);
+            const data = await response.json();
+
+            // Update Price & Signal Text
+            document.getElementById('btc-price').innerText = '$' + data.btc_price;
+            document.getElementById('ai-signal-name').innerText = data.ai_signal_name;
+            document.getElementById('ai-directive').innerText = data.ai_safetrade_action;
+            
+            // Handle BTC Change & Color Logic
+            const btcChangeEl = document.getElementById('btc-change');
+            const changeVal = parseFloat(data.btc_change);
+            btcChangeEl.innerText = (changeVal > 0 ? '+' : '') + changeVal + '%';
+            
+            // Apply Red/Green Colors
+            btcChangeEl.style.color = changeVal >= 0 ? '#22c55e' : '#ef4444';
+
+            // Update Macro (DXY)
+            document.getElementById('dxy-value').innerText = data.dxy_value;
+
+        } catch (error) {
+            console.error('Data Sync Error:', error);
+            document.getElementById('ai-signal-name').innerText = "Data Feed Latency";
+        }
     }
-    setInterval(fetchLatestSignals, 60000);
+
+    // Run once on load
+    updateDashboard();
+    
+    // Refresh every 5 minutes while the tab is open
+    setInterval(updateDashboard, 300000);
 </script>
 
 </body>
 </html>
+
 
 
 
