@@ -49,7 +49,17 @@
         .sentiment-bar { height: 10px; background: #334155; border-radius: 10px; margin: 15px 0; overflow: hidden; }
         .sentiment-fill { height: 100%; background: var(--accent); transition: width 1.5s ease-in-out; }
 
-        .sub-form-area { text-align: center; padding: 30px; background: rgba(15, 23, 42, 0.5); border-radius: 12px; border: 1px dashed var(--accent); }
+       .sub-form-area { 
+    text-align: center; 
+    padding: 30px; 
+    background: rgba(15, 23, 42, 0.5); 
+    border-radius: 12px; 
+    border: 1px dashed var(--accent); 
+    display: flex; /* Centers the inner Sender.net div */
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+                         } 
         
         /* Sender.net Styling Override */
         .sender-form-field { margin-top: 20px; }
@@ -210,6 +220,7 @@
 
 </body>
     </html>
+
 
 
 
