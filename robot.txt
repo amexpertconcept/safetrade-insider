@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://amexpertconcept.github.io/safetrade-insider/sitemap.xml
