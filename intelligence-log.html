@@ -60,6 +60,60 @@
         .log-title { font-size: 18px; color: #fff; margin: 0 0 10px 0; line-height: 1.4; }
         .log-excerpt { font-size: 14px; color: var(--text-dim); line-height: 1.6; }
 
+/* Archive Styles */
+.archive-month-group { margin-bottom: 30px; }
+.month-title { 
+    font-size: 18px; 
+    color: var(--accent); 
+    border-bottom: 1px solid #334155; 
+    padding-bottom: 5px; 
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.archive-list { list-style: none; padding: 0; }
+.archive-item { 
+    display: flex; 
+    justify-content: space-between; 
+    padding: 10px 0; 
+    border-bottom: 1px solid #1e293b; 
+}
+.archive-item a { color: #f8fafc; text-decoration: none; font-size: 15px; }
+.archive-item a:hover { color: var(--accent); }
+.archive-date { color: var(--text-dim); font-size: 13px; }
+
+/* Search Bar Styling */
+.archive-search-wrapper {
+    margin: 20px 0 40px 0;
+    position: relative;
+}
+
+#archive-search {
+    width: 100%;
+    background: #0b0f1a;
+    border: 1px solid #334155;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+    box-sizing: border-box;
+}
+
+#archive-search:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);
+}
+
+.no-results-msg {
+    display: none;
+    text-align: center;
+    color: var(--text-dim);
+    padding: 40px;
+    font-style: italic;
+}
+
         footer { text-align: center; padding: 60px; color: var(--text-dim); font-size: 12px; border-top: 1px solid var(--border); margin-top: 50px; }
     </style>
 </head>
@@ -87,7 +141,34 @@
     </a>
 
     <div class="section-title" style="color: var(--text-dim); font-size: 12px; text-transform: uppercase; letter-spacing: 2px; border-bottom: 1px solid var(--border); padding-bottom: 10px;">Archive Briefings</div>
+    <section class="section">
+    <div class="section-title"><span class="tag">Archive</span> Intelligence History</div>
     
+    <div class="archive-search-wrapper">
+        <input type="text" id="archive-search" placeholder="🔍 Search briefings by keyword (e.g. DXY, Pivot, BTC)...">
+    </div>
+
+    <div id="monthly-archive-container">
+        <div id="no-results" class="no-results-msg">No intelligence logs found matching your criteria.</div>
+        
+        <ul id="raw-archive-data" style="display:none;">
+            <li data-date="2026-03-10"><a href="posts/directive-march-10.html">Weekly Directive: Bullish DXY</a></li>
+            <li data-date="2026-03-03"><a href="posts/dxy-pivot-2026.html">The 2026 DXY Pivot</a></li>
+            <li data-date="2026-02-15"><a href="#">February Capital Report</a></li>
+        </ul>
+        
+        <div id="sorted-archive-display"></div>
+    </div>
+</section>
+    <div id="monthly-archive-container">
+        <ul id="raw-archive-data" style="display:none;">
+            <li data-date="2026-02-01"><a href="#">Introduction to Zero-Loss</a></li>
+        </ul>
+        
+        <div id="sorted-archive-display"></div>
+    </div>
+</section>
+
     <div class="log-grid">
         <a href="#" class="log-card">
             <span class="log-date">Feb 24, 2026</span>
@@ -112,6 +193,47 @@
         &copy; 2026 SafeTrade Insider | Institutional Macro Research
     </footer>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const rawData = document.querySelectorAll("#raw-archive-data li");
+    const displayArea = document.getElementById("sorted-archive-display");
+    const groups = {};
+
+    // 1. Group the items by Month/Year
+    rawData.forEach(item => {
+        const dateStr = item.getAttribute("data-date");
+        const dateObj = new Date(dateStr);
+        const monthYear = dateObj.toLocaleString('default', { month: 'long', year: 'numeric' });
+        
+        if (!groups[monthYear]) {
+            groups[monthYear] = [];
+        }
+        groups[monthYear].push({
+            html: item.querySelector("a").outerHTML,
+            date: dateObj.toLocaleDateString('default', { day: '2-digit', month: 'short' })
+        });
+    });
+
+    // 2. Sort months (newest first) and display
+    Object.keys(groups).sort((a, b) => new Date(b) - new Date(a)).forEach(month => {
+        let monthHtml = `<div class="archive-month-group">
+            <div class="month-title">${month}</div>
+            <ul class="archive-list">`;
+        
+        groups[month].forEach(post => {
+            monthHtml += `
+                <li class="archive-item">
+                    ${post.html}
+                    <span class="archive-date">${post.date}</span>
+                </li>`;
+        });
+
+        monthHtml += `</ul></div>`;
+        displayArea.innerHTML += monthHtml;
+    });
+});
+</script>
 
 </body>
 </html>
