@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Directive | SafeTrade Insider Intelligence</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0b0f1a;
+            --card-bg: #161b2b;
+            --accent: #f59e0b;
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+            --border: #334155;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: var(--text-main); line-height: 1.7; margin: 0; padding: 0; }
+        .container { max-width: 850px; margin: 0 auto; padding: 40px 20px; }
+        
+        /* Header & Navigation */
+        .nav-back { color: var(--accent); text-decoration: none; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; display: inline-block; }
+        .header { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 40px; }
+        .header h1 { font-size: 32px; margin: 10px 0; letter-spacing: -1px; }
+        .header .meta { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* Quick Action Grid (TL;DR) */
+        .action-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 40px; }
+        .action-card { background: var(--card-bg); border: 1px solid var(--border); padding: 20px; border-radius: 8px; text-align: center; }
+        .action-card span { display: block; font-size: 11px; color: var(--text-dim); text-transform: uppercase; margin-bottom: 5px; }
+        .action-card strong { font-size: 18px; color: var(--accent); }
+        .action-card.alert { border: 1px solid var(--danger); }
+
+        /* Content Sections */
+        .content h2 { font-size: 22px; color: var(--accent); margin-top: 40px; border-bottom: 1px solid var(--border); padding-bottom: 10px; }
+        .content p { font-size: 16px; color: #cbd5e1; margin-bottom: 20px; }
+        
+        /* Tactical Box */
+        .tactical-box { background: rgba(245, 158, 11, 0.05); border: 1px dashed var(--accent); padding: 25px; border-radius: 12px; margin: 40px 0; }
+        .tactical-box h3 { margin-top: 0; color: var(--accent); font-size: 18px; }
+        .tactical-box ul { padding-left: 20px; color: #cbd5e1; }
+        .tactical-box li { margin-bottom: 10px; }
+
+/* About the Analyst Box */
+.analyst-card {
+    background: #161b2b;
+    border: 1px solid #334155;
+    border-left: 4px solid var(--accent);
+    border-radius: 12px;
+    padding: 25px;
+    margin-top: 60px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.analyst-photo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #1e293b; /* Placeholder if no photo */
+    border: 2px solid var(--accent);
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.analyst-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 18px;
+    color: var(--accent);
+    letter-spacing: 0.5px;
+}
+
+.analyst-role {
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+
+.analyst-bio {
+    font-size: 14px;
+    color: #cbd5e1;
+    line-height: 1.5;
+    margin: 0;
+}
+
+@media (max-width: 600px) {
+    .analyst-card { flex-direction: column; text-align: center; }
+}
+
+
+.contact-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background-color: #161b2b;
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid var(--accent);
+    width: 90%;
+    max-width: 450px;
+    border-radius: 12px;
+    color: white;
+}
+
+.modal-content input, .modal-content textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    background: #0b0f1a;
+    border: 1px solid #334155;
+    color: white;
+    border-radius: 6px;
+}
+
+analyst-socials {
+    margin-top: 12px;
+    display: flex;
+    gap: 15px;
+}
+
+.analyst-socials a {
+    color: #94a3b8; /* Dimmed gray to match the terminal theme */
+    font-size: 18px;
+    transition: color 0.3s ease, transform 0.2s ease;
+    text-decoration: none;
+}
+
+/* Hover effects for brand colors */
+.analyst-socials a:hover {
+    transform: translateY(-2px);
+}
+
+.fa-x-twitter:hover { color: #ffffff; }
+.fa-linkedin:hover { color: #0077b5; }
+.fa-telegram:hover { color: #0088cc; }
+.fa-youtube:hover { color: #ff0000; }
+
+        .footer-note { font-size: 12px; color: var(--text-dim); text-align: center; margin-top: 60px; padding-top: 20px; border-top: 1px solid var(--border); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="../intelligence-log.html" class="nav-back">← Back to Log</a>
+    
+    <div class="header">
+        <div class="meta">Weekly Directive • Ref: STI-2026-03-10</div>
+        <h1>Market Pulse: [Insert Date/Theme Here]</h1>
+        <div class="meta" style="color: var(--accent);">Target: Capital Preservation & Alpha Generation</div>
+    </div>
+
+    <div class="action-grid">
+        <div class="action-card">
+            <span>DXY Bias</span>
+            <strong>BULLISH</strong>
+        </div>
+        <div class="action-card">
+            <span>BTC Range</span>
+            <strong>$62k - $68k</strong>
+        </div>
+        <div class="action-card alert">
+            <span>Risk Level</span>
+            <strong style="color: var(--danger);">ELEVATED</strong>
+        </div>
+        <div class="action-card">
+            <span>Directive</span>
+            <strong>DEFENSIVE</strong>
+        </div>
+    </div>
+
+    <div class="content">
+        <h2>The Executive Summary</h2>
+        <p>[Paste your AI-generated summary here. Keep it under 150 words. Focus on the core macro driver for the week.]</p>
+
+        <h2>The Macro Pivot: DXY Analysis</h2>
+        <p>[Discuss the Dollar Index here. Mention specific price levels and how they are impacting global liquidity.]</p>
+
+        <h2>Technical Battlefield: BTC & Layer 2s</h2>
+        <p>[Discuss support and resistance levels. Mention any significant on-chain movements or exchange inflows/outflows.]</p>
+
+        <div class="tactical-box">
+            <h3>The SafeTrade Zero-Loss Directive</h3>
+            <ul>
+                <li><strong>Stablecoin Reserve:</strong> Maintain [X]% in USDT/USDC for dip opportunities.</li>
+                <li><strong>Stop-Loss Protocol:</strong> Hard exits for altcoins at [Price Level].</li>
+                <li><strong>Action:</strong> [Brief instruction, e.g., 'Sit on hands and wait for DXY to cool.']</li>
+            </ul>
+        </div>
+
+        <h2>Upcoming Calendar Events</h2>
+        <p>Stay alert for the following high-impact releases this week:</p>
+        <ul style="color: #cbd5e1;">
+            <li><strong>Wed:</strong> CPI Inflation Data (US)</li>
+            <li><strong>Fri:</strong> Consumer Sentiment Index</li>
+        </ul>
+    </div>
+
+<div class="analyst-card">
+    <img src="assets/ussman-abbakah.jpg" alt="Ussman Abbakah" class="analyst-photo">
+    
+    <div class="analyst-info">
+        <span class="analyst-role">Lead Macro Strategist</span>
+        
+        <div class="analyst-name-wrapper" style="display: flex; align-items: center; gap: 8px;">
+            <h4 style="margin:0; font-size: 20px; color: var(--accent);">Ussman Abbakah</h4>
+            <span class="verified-badge" title="Identity Verified: SafeTrade Protocol 2026" style="color: #38bdf8;">
+                <i class="fa-solid fa-circle-check"></i>
+            </span>
+        </div>
+
+        <p class="analyst-bio">
+            Strategic lead at SafeTrade Intel. Ussman specializes in cross-asset liquidity flows 
+            and DXY-BTC correlation regimes. His "Zero-Loss" framework serves as the 
+            primary engine for our institutional-grade market directives.
+        </p>
+        
+        <div class="analyst-socials" style="margin-top: 15px; display: flex; align-items: center; gap: 20px;">
+            <a href="https://x.com/UssmanAbbakah" target="_blank" style="color: #94a3b8; font-size: 18px;"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="https://linkedin.com/in/UssmanAbbakah" target="_blank" style="color: #94a3b8; font-size: 18px;"><i class="fa-brands fa-linkedin"></i></a>
+            <button onclick="toggleContactForm()" style="background: var(--accent); color: #0b0f1a; border: none; padding: 6px 15px; border-radius: 4px; font-size: 11px; font-weight: bold; cursor: pointer; text-transform: uppercase;">
+                Contact Strategist
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="contactModal" class="contact-modal">
+    <div class="modal-content">
+        <h3 style="color: var(--accent); margin-top: 0;">Direct Intelligence Inquiry</h3>
+        <p style="font-size: 13px; color: #94a3b8;">Send a direct message to the Intel Desk regarding current macro directives.</p>
+        <form id="analystContactForm">
+            <input type="text" placeholder="Full Name" required>
+            <input type="email" placeholder="Institutional Email" required>
+            <textarea placeholder="Your inquiry regarding current DXY/BTC correlation..." rows="4"></textarea>
+            <button type="submit" style="width: 100%; padding: 12px; background: var(--accent); color: #0b0f1a; border: none; border-radius: 6px; font-weight: bold; cursor: pointer;">SEND INQUIRY</button>
+            <button type="button" onclick="toggleContactForm()" style="width: 100%; background: none; border: none; color: #94a3b8; font-size: 12px; margin-top: 10px; cursor: pointer;">Cancel</button>
+        </form>
+    </div>
+</div>
+
+    <div class="footer-note">
+        Disclaimer: This directive is for members of the SafeTrade Insider network. Trading involves high risk. Capital preservation is the priority.
+    </div>
+</div>
+
+</body>
+  </html>
