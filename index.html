@@ -342,8 +342,7 @@
 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script>
 /**
- * SAFETRADE MASTER SCRIPT V3.1
- * Verified for CSS Layout Compatibility
+ * SAFETRADE MASTER SCRIPT V3.2 - AUTO-SYNC ENABLED
  */
 const SIGNALS_URL = 'signals.json';
 const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
@@ -351,52 +350,68 @@ let lastSignal = "";
 
 async function syncTerminal() {
     try {
+        // Fetch data with a timestamp to prevent browser caching
         const res = await fetch(`${SIGNALS_URL}?t=${Date.now()}`);
+        if (!res.ok) throw new Error("Could not find signals.json");
         const data = await res.json();
         
-        const sigName = data.ai_signal_name;
-        
-        /* 1. TARGETING THE PULSE WRAPPER */
+        // 1. SIGNAL & ALERT LOGIC
+        const sigName = data.ai_signal_name || "INITIALIZING";
         const wrapper = document.getElementById('ai-signal-wrapper');
         const tickStatus = document.getElementById('tick-status');
 
         if (sigName === "CRITICAL") {
             if (wrapper) wrapper.classList.add('pulse-alert');
             if (lastSignal !== "CRITICAL") alertSound.play();
-            if (tickStatus) tickStatus.style.color = "#ef4444";
+            if (tickStatus) { tickStatus.innerText = "CRITICAL"; tickStatus.style.color = "#ef4444"; }
         } else {
             if (wrapper) wrapper.classList.remove('pulse-alert');
-            if (tickStatus) tickStatus.style.color = "#f59e0b";
+            if (tickStatus) { tickStatus.innerText = "OK"; tickStatus.style.color = "#f59e0b"; }
         }
         lastSignal = sigName;
 
-        /* 2. UPDATING TEXT DATA */
-        const elName = document.getElementById('ai-signal-name');
-        const elDriver = document.getElementById('signal-driver');
-        const elTickBtc = document.getElementById('tick-btc');
-        const elTickDxy = document.getElementById('tick-dxy');
+        // 2. TEXT UPDATES (NAME, DRIVER, OUTLOOK, DIRECTIVE)
+        const updateText = (id, value) => {
+            const el = document.getElementById(id);
+            if (el && value) el.innerText = value;
+        };
 
-        if (elName) elName.innerText = sigName;
-        if (elDriver) elDriver.innerText = data.ai_primary_driver;
+        updateText('ai-signal-name', sigName);
+        updateText('signal-driver', data.technical_driver || data.ai_primary_driver);
+        updateText('market-outlook', data.market_outlook);
+        updateText('signal-action', data.safetrade_directive || data.ai_safetrade_action);
         
-        /* MOBILE TICKER UPDATES */
-        if (elTickBtc) elTickBtc.innerText = data.btc_price;
-        if (elTickDxy) elTickDxy.innerText = data.dxy_value;
+        // 3. TICKER UPDATES
+        updateText('tick-btc', data.btc_price);
+        updateText('tick-dxy', data.dxy_value);
+
+        // 4. QUICK PULSE LIST UPDATER
+        const pulseList = document.getElementById('pulse-list');
+        if (pulseList && data.quick_pulse && Array.isArray(data.quick_pulse)) {
+            pulseList.innerHTML = data.quick_pulse
+                .map(headline => `<li>${headline}</li>`)
+                .join('');
+        }
+
+        // 5. INVESTOR SENTIMENT BAR
+        const sentimentBar = document.getElementById('sentiment-fill');
+        const sentimentVal = document.getElementById('sentiment-value');
+        if (sentimentBar && data.investor_sentiment) {
+            sentimentBar.style.width = data.investor_sentiment + "%";
+            if (sentimentVal) sentimentVal.innerText = data.investor_sentiment + "%";
+            
+            // Color the bar: Red if fearful (<40), Green if greedy (>60)
+            if (data.investor_sentiment < 40) sentimentBar.style.background = "#ef4444";
+            else if (data.investor_sentiment > 60) sentimentBar.style.background = "#22c55e";
+            else sentimentBar.style.background = "var(--accent)";
+        }
 
     } catch (e) { 
         console.error("SafeTrade Sync Error:", e); 
     }
 }
 
-// Volume Control (Safety check added)
-const volSlider = document.getElementById('volume-slider');
-if (volSlider) {
-    volSlider.addEventListener('input', (e) => {
-        alertSound.volume = e.target.value;
-    });
-}
-
-// Audio Unlock
+// Volume & Audio Controls
 function enableAudio() {
     alertSound.play().then(() => {
         alertSound.pause();
@@ -409,40 +424,32 @@ function enableAudio() {
     }).catch(err => console.log("Audio unlock failed:", err));
 }
 
-// Chart Initializer (Checks if containers exist before loading)
+const volSlider = document.getElementById('volume-slider');
+if (volSlider) {
+    volSlider.addEventListener('input', (e) => { alertSound.volume = e.target.value; });
+}
+
+// Chart Initializer
 function initCharts() {
     if (document.getElementById('tradingview_btc')) {
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": "BINANCE:BTCUSDT",
-            "interval": "H",
-            "theme": "dark",
-            "container_id": "tradingview_btc",
-            "hide_top_toolbar": true
-        });
+        new TradingView.widget({ "autosize": true, "symbol": "BINANCE:BTCUSDT", "interval": "H", "theme": "dark", "container_id": "tradingview_btc", "hide_top_toolbar": true });
     }
     if (document.getElementById('tradingview_dxy')) {
-        new TradingView.widget({
-            "autosize": true,
-            "symbol": "CAPITALCOM:DXY",
-            "interval": "H",
-            "theme": "dark",
-            "container_id": "tradingview_dxy",
-            "hide_top_toolbar": true
-        });
+        new TradingView.widget({ "autosize": true, "symbol": "CAPITALCOM:DXY", "interval": "H", "theme": "dark", "container_id": "tradingview_dxy", "hide_top_toolbar": true });
     }
 }
 
-// Launch
+// Launch Sequence
 document.addEventListener('DOMContentLoaded', () => {
     syncTerminal();
-    setInterval(syncTerminal, 300000); // 5 min refresh
+    setInterval(syncTerminal, 300000); // Sync every 5 mins
     initCharts();
 });
 </script>
 
 </body>
 </html>
+
 
 
 
