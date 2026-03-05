@@ -1,14 +1,14 @@
 {
-  "btc_price": "0.00",
-  "btc_change": "0.00",
-  "eth_price": "0.00",
-  "eth_change": "0.00",
-  "dxy_value": "0.00",
-  "dxy_change": "0.00",
-  "ai_signal_name": "INITIALIZING",
-  "ai_primary_driver": "System start-up...",
-  "ai_safetrade_action": "Waiting for first automation cycle.",
-  "sentiment_label": "Neutral",
-  "sentiment_value": "50",
-  "sentiment_analysis_text": "Syncing with global markets..."
+  "btc_price": "${{1.data.bitcoin.usd}}",
+  "dxy_value": "{{2.data.observations[1].value}}",
+  "ai_signal_name": "{{3.signal_name}}",
+  "market_outlook": "{{3.outlook}}",
+  "technical_driver": "{{3.driver}}",
+  "safetrade_directive": "{{3.directive}}",
+  "investor_sentiment": "{{4.sentiment_score}}",
+  "quick_pulse": [
+    "{{5.articles[1].title}}",
+    "{{5.articles[2].title}}",
+    "{{5.articles[3].title}}"
+  ]
 }
