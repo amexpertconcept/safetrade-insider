@@ -349,20 +349,7 @@ const SIGNALS_URL = 'signals.json';
 const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
 let lastSignal = "";
 
-async function syncTerminal() 
-// This tells the website where to put the new data from Make.com
-document.getElementById('ai-signal-name').innerText = data.ai_signal_name;
-document.getElementById('market-outlook').innerText = data.market_outlook;
-document.getElementById('signal-driver').innerText = data.technical_driver;
-document.getElementById('signal-action').innerText = data.safetrade_directive;
-
-// Update the Quick Pulse List
-const pulseList = document.getElementById('pulse-list');
-pulseList.innerHTML = data.quick_pulse.map(item => `<li>${item}</li>`).join('');
-
-// Update Sentiment Bar
-document.getElementById('sentiment-fill').style.width = data.investor_sentiment + '%';
-{
+async function syncTerminal() {
     try {
         const res = await fetch(`${SIGNALS_URL}?t=${Date.now()}`);
         const data = await res.json();
@@ -456,6 +443,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
