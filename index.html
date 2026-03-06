@@ -425,6 +425,11 @@ async function syncTerminal() {
         } else {
             if (wrapper) wrapper.classList.remove('pulse-alert');
             if (tickStatus) { tickStatus.innerText = "OK"; tickStatus.style.color = "#f59e0b"; }
+            
+          // Add this inside your syncTerminal function
+        const sessionKey = "STI-" + Math.random().toString(36).substring(2, 10).toUpperCase();
+        const securityIdEl = document.getElementById('security-id');
+            if (securityIdEl) securityIdEl.innerText = sessionKey;  
         }
         lastSignal = sigName;
 
@@ -507,6 +512,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
