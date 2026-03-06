@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Protocols | SafeTrade Insider</title>
+    <link rel="stylesheet" href="style.css"> <style>
+        body { background-color: #0f172a; color: #f8fafc; font-family: 'Inter', sans-serif; line-height: 1.6; }
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        .security-header { border-bottom: 1px solid #1e293b; padding-bottom: 20px; margin-bottom: 40px; text-align: center; }
+        h1 { color: #f59e0b; font-size: 32px; }
+        h2 { color: #fff; border-left: 4px solid #f59e0b; padding-left: 15px; margin-top: 40px; }
+        .card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 25px; margin-bottom: 20px; }
+        .tag { background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
+        code { background: #0f172a; padding: 2px 6px; border-radius: 4px; color: #38bdf8; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="security-header">
+        <span class="tag">System Status: Secure</span>
+        <h1>Security & Resilience Architecture</h1>
+        <p>Verified Compliance: NIST 2.0 & DORA (Digital Operational Resilience Act)</p>
+    </div>
+
+    <section class="card">
+        <h2>1. Identity & Access Management (IAM)</h2>
+        <p>SafeTrade Insider utilizes a <strong>Zero-Trust Architecture</strong>. Our automated backend (The Brain) communicates with the Terminal via scoped, encrypted tokens.</p>
+        <ul>
+            <li><strong>Personal Access Tokens (PAT):</strong> We utilize GitHub Fine-Grained PATs with "Least Privilege" scopes. This ensures the automation can <em>only</em> update the <code>signals.json</code> file and has no access to sensitive account settings.</li>
+            <li><strong>Machine-to-Machine (M2M) Security:</strong> All handshakes between Make.com and GitHub are encrypted using <strong>TLS 1.3</strong>.</li>
+            <li><strong>Credential Rotation:</strong> Our API keys for FRED, CoinGecko, and GitHub are rotated every 90 days in accordance with NIST 2026 guidelines.</li>
+        </ul>
+    </section>
+
+    <section class="card">
+        <h2>2. Data Integrity & "The Brain" Workflow</h2>
+        <p>To prevent market manipulation or data tampering, we employ strict validation protocols:</p>
+        <ul>
+            <li><strong>Source Verification:</strong> Data is pulled only from verified institutional endpoints (St. Louis Fed, CoinGecko Enterprise).</li>
+            <li><strong>Algorithmic Validation:</strong> Before a "CRITICAL" signal is published, the logic must pass a 3-point correlation check between the US Dollar Index (DXY) and BTC Liquidity.</li>
+            <li><strong>Static Delivery:</strong> By using GitHub Pages as our delivery layer, we eliminate database vulnerabilities. The website is "Read-Only" for the public, making it immune to SQL injection attacks.</li>
+        </ul>
+    </section>
+
+    <section class="card">
+        <h2>3. 2026 Compliance Standards</h2>
+        <p>As a provider of financial intelligence, we adhere to the highest resilience frameworks:</p>
+        <table>
+            <tr>
+                <td><strong>Framework</strong></td>
+                <td><strong>Implementation Status</strong></td>
+            </tr>
+            <tr>
+                <td><strong>DORA</strong></td>
+                <td>ICT Risk Management & Incident Reporting fully integrated.</td>
+            </tr>
+            <tr>
+                <td><strong>NIST 2.0</strong></td>
+                <td>Focused on "Govern" and "Protect" functions for automated workflows.</td>
+            </tr>
+            <tr>
+                <td><strong>TLS 1.3</strong></td>
+                <td>Mandatory for all API data in transit.</td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="card">
+        <h2>4. Reporting Vulnerabilities</h2>
+        <p>We maintain a "Security First" culture. If you discover a potential vulnerability in our data delivery or signal logic, please contact our security desk at: <code>security@safetrade-insider.com</code></p>
+    </section>
+
+    <div style="text-align: center; margin-top: 40px;">
+        <a href="index.html" style="color: #f59e0b; text-decoration: none; font-weight: bold;">← Return to Terminal</a>
+    </div>
+</div>
+
+</body>
+</html>
