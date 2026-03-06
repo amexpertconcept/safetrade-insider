@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Disclosure | SafeTrade Insider</title>
+    <style>
+        body { background-color: #0f172a; color: #cbd5e1; font-family: 'Inter', sans-serif; line-height: 1.8; }
+        .wrapper { max-width: 850px; margin: 50px auto; padding: 40px; background: #1e293b; border-radius: 12px; border: 1px solid #334155; }
+        h1 { color: #f59e0b; font-size: 28px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 2px solid #334155; padding-bottom: 15px; }
+        h2 { color: #fff; font-size: 18px; margin-top: 30px; text-transform: uppercase; }
+        p, li { font-size: 14px; }
+        .alert-box { background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 20px; margin: 20px 0; color: #f8fafc; }
+        .highlight { color: #f59e0b; font-weight: bold; }
+        .footer-link { display: block; text-align: center; margin-top: 50px; color: #94a3b8; text-decoration: none; font-size: 12px; }
+        .footer-link:hover { color: #fff; }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    <h1>Institutional Risk Disclosure</h1>
+    
+    <div class="alert-box">
+        <strong>⚠️ HIGH RISK WARNING:</strong> Trading foreign exchange (FX), indices, and cryptocurrencies carries a high level of risk and may not be suitable for all investors. You could lose some or all of your initial investment; do not invest money that you cannot afford to lose.
+    </div>
+
+    <section>
+        <h2>1. Nature of the Service</h2>
+        <p>SafeTrade Insider is a <span class="highlight">Market Intelligence Terminal</span>. It provides algorithmic data synthesis and macro-economic analysis. We are not a Registered Investment Advisor (RIA), Broker-Dealer, or Financial Custodian. All "Directives," "Signals," and "Outlook" data are for <strong>educational and informational purposes only</strong>.</p>
+    </section>
+
+    <section>
+        <h2>2. AI-Generated Logic & "Hallucinations"</h2>
+        <p>The "Brain" of this terminal utilizes Generative AI (LLMs) to synthesize complex data points (BTC vs. DXY). In accordance with 2026 AI Oversight standards:</p>
+        <ul>
+            <li><strong>Model Risk:</strong> AI can produce "hallucinations" or logically flawed conclusions based on incomplete data.</li>
+            <li><strong>Latency:</strong> Signal data may be delayed by 5-15 minutes. In volatile markets, this delay can result in signals that are no longer valid by the time they are rendered.</li>
+            <li><strong>No Human Guarantee:</strong> While the logic is designed around the Ussman Abbakah framework, the AI operates autonomously and does not constitute a personal recommendation.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>3. The "Zero-Loss" Framework Clarification</h2>
+        <p>The term <span class="highlight">"Zero-Loss"</span> refers to a strategic risk-management philosophy focused on capital preservation and correlation-hedging. It is <strong>NOT</strong> a mathematical guarantee of profit or a promise that losses cannot occur. Market anomalies, "Black Swan" events, and exchange failures can override any algorithmic strategy.</p>
+    </section>
+
+    <section>
+        <h2>4. Third-Party Data Reliance</h2>
+        <p>We rely on external APIs (FRED, NewsAPI, CoinGecko). We do not guarantee the accuracy, completeness, or timeliness of this data. If a third-party data feed fails, the terminal may display "stale" or incorrect information.</p>
+    </section>
+
+    <section>
+        <h2>5. Jurisdictional Restrictions</h2>
+        <p>It is the user's responsibility to ensure that using a crypto-intelligence terminal is legal in their jurisdiction. SafeTrade Insider does not solicit users in regions where such activity is restricted by local law.</p>
+    </section>
+
+    <a href="index.html" class="footer-link">ACKNOWLEDGEMENT: BY CONTINUING TO USE THIS TERMINAL, YOU AGREE TO THESE TERMS.</a>
+</div>
+
+</body>
+</html>
