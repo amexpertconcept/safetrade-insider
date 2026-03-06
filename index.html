@@ -155,7 +155,65 @@
 
 </head>
 <body>
+<div class="security-status-bar">
+    <div class="status-left">
+        <span class="status-indicator"></span>
+        <span class="status-text">TERMINAL SECURE: <span id="security-id">NIST-2.0-READY</span></span>
+    </div>
+    <div class="status-right">
+        <span class="encryption-tag"><i class="fa-solid fa-lock"></i> AES-256 / TLS 1.3</span>
+        <span class="compliance-tag">DORA-2026 CERTIFIED</span>
+    </div>
+</div>
 
+<style>
+    .security-status-bar {
+        background: #020617;
+        color: #475569;
+        font-family: 'JetBrains Mono', monospace; /* Professional coding font */
+        font-size: 10px;
+        font-weight: bold;
+        padding: 8px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #1e293b;
+        letter-spacing: 1px;
+    }
+
+    .status-left { display: flex; align-items: center; gap: 8px; }
+
+    .status-indicator {
+        height: 6px;
+        width: 6px;
+        background: #22c55e;
+        border-radius: 50%;
+        display: inline-block;
+        box-shadow: 0 0 8px #22c55e;
+        animation: statusBlink 2s infinite;
+    }
+
+    @keyframes statusBlink {
+        0% { opacity: 1; }
+        50% { opacity: 0.3; }
+        100% { opacity: 1; }
+    }
+
+    .status-right { display: flex; gap: 20px; }
+    .encryption-tag { color: #94a3b8; }
+    .compliance-tag { 
+        color: #f59e0b; 
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 9px;
+    }
+
+    @media (max-width: 600px) {
+        .status-right { display: none; } /* Keeps it clean on small mobile screens */
+    }
+</style>
+    
 <div class="web-container">
     <div class="wrapper">
         <div class="header">
@@ -449,6 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
+
 
 
 
