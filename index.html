@@ -151,10 +151,90 @@
         .subscribe-form { width: 100%; flex-direction: column; }
         .footer-content { text-align: center; justify-content: center; }
     }
+
+/* Background Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(2, 6, 23, 0.95); /* Deep dark blue */
+    backdrop-filter: blur(10px); /* Blurs the terminal behind it */
+    z-index: 9999; /* Highest priority */
+    display: flex; align-items: center; justify-content: center;
+}
+
+/* Modal Box */
+.modal-content {
+    background: #1e293b;
+    border: 1px solid #f59e0b;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 500px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(245, 158, 11, 0.2);
+}
+
+.modal-header i { color: #f59e0b; font-size: 40px; margin-bottom: 15px; }
+.modal-header h2 { color: #fff; margin: 0 0 20px; font-size: 22px; }
+
+.modal-body { color: #94a3b8; font-size: 14px; line-height: 1.6; text-align: left; }
+.modal-body ul { padding-left: 20px; margin: 20px 0; }
+.modal-body a { color: #f59e0b; text-decoration: none; border-bottom: 1px solid transparent; }
+.modal-body a:hover { border-bottom: 1px solid #f59e0b; }
+
+.compliance-badge {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+    font-size: 10px;
+    font-weight: bold;
+    padding: 5px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Accept Button */
+#accept-btn {
+    margin-top: 30px;
+    width: 100%;
+    background: #f59e0b;
+    color: #020617;
+    border: none;
+    padding: 15px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#accept-btn:hover { background: #fff; transform: translateY(-2px); }
+
+/* Hide logic */
+.hidden { display: none !important; }
+
 </style>
 
 </head>
 <body>
+<div id="disclaimer-modal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-header">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h2>Institutional Access Disclosure</h2>
+        </div>
+        <div class="modal-body">
+            <p>You are accessing the <strong>SafeTrade Insider Intelligence Terminal</strong>. By entering, you acknowledge:</p>
+            <ul>
+                <li>This is an information service, not financial advice.</li>
+                <li>AI-generated signals are subject to 5-15 minute latency.</li>
+                <li>You have read and agree to our <a href="risk-disclosure.html" target="_blank">Risk Disclosure</a> and <a href="legal.html" target="_blank">Terms of Service</a>.</li>
+            </ul>
+            <div class="compliance-badge">DORA-2026 COMPLIANT ACCESS</div>
+        </div>
+        <button id="accept-btn" onclick="acceptDisclaimer()">I ACCEPT & ENTER TERMINAL</button>
+    </div>
+</div>
+    
 <div class="security-status-bar">
     <div class="status-left">
         <span class="status-indicator"></span>
@@ -528,10 +608,35 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(syncTerminal, 300000); // Sync every 5 mins
     initCharts();
 });
+
+// Check for previous acceptance on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const hasAccepted = localStorage.getItem('safetrade_accepted');
+    if (hasAccepted) {
+        document.getElementById('disclaimer-modal').classList.add('hidden');
+    }
+});
+
+function acceptDisclaimer() {
+    // Save acceptance to browser storage
+    localStorage.setItem('safetrade_accepted', 'true');
+    
+    // Hide the modal with a smooth fade
+    const modal = document.getElementById('disclaimer-modal');
+    modal.style.transition = "opacity 0.5s ease";
+    modal.style.opacity = "0";
+    
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        // Trigger audio unlock if needed
+        if (typeof enableAudio === "function") enableAudio();
+    }, 500);
+    }
 </script>
 
 </body>
 </html>
+
 
 
 
