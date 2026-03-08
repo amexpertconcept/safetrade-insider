@@ -32,4 +32,4 @@ jobs:
           git config --global user.email "bot@safetrade.com"
           git add signals.json
           git commit -m "Brain Update: BTC at $${{ env.BTC_PRICE }}"
-          git push
+          git push 
