@@ -1,0 +1,35 @@
+name: SafeTrade Brain
+on:
+  schedule:
+    - cron: '*/30 * * * *' # Runs every 30 minutes
+  workflow_dispatch: # Allows you to run it manually
+
+jobs:
+  update-signals:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Fetch Market Data
+        run: |
+          BTC_PRICE=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd" | jq -r '.bitcoin.usd')
+          echo "BTC_PRICE=$BTC_PRICE" >> $GITHUB_ENV
+
+      - name: Update Signals File
+        run: |
+          echo '{
+            "btc_price": "$${{ env.BTC_PRICE }}",
+            "dxy_value": "103.50",
+            "ai_signal_name": "STABLE",
+            "ai_primary_driver": "Market conditions normal. BTC holding above support.",
+            "ai_safetrade_action": "No immediate action required. Maintain positions."
+          }' > signals.json
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "SafeTrade-Bot"
+          git config --global user.email "bot@safetrade.com"
+          git add signals.json
+          git commit -m "Brain Update: BTC at $${{ env.BTC_PRICE }}"
+          git push
