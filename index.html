@@ -632,10 +632,20 @@ function acceptDisclaimer() {
         if (typeof enableAudio === "function") enableAudio();
     }, 500);
     }
+
+    document.getElementById('enrollmentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('submitBtn');
+        btn.disabled = true; document.getElementById('btnText').innerText = "Securing Spot...";
+        document.getElementById('btnSpinner').style.display = "inline-block";
+        sender('track', 'subscribe', { email: document.getElementById('email').value, firstname: document.getElementById('name').value });
+        setTimeout(() => { window.location.href = "https://amexpertconcept.github.io/safetrade-insider/"; }, 1200); 
+      });
 </script>
 
 </body>
 </html>
+
 
 
 
