@@ -407,166 +407,48 @@
 </footer>
         
 </div>
-<script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
 <script>
-/**
- * SAFETRADE MASTER SCRIPT V3.2 - AUTO-SYNC ENABLED
- */
 const SIGNALS_URL = 'signals.json';
-const alertSound = new Audio('https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3');
-let lastSignal = "";
 
 async function syncTerminal() {
     try {
-        // Fetch data with a timestamp to prevent browser caching
         const res = await fetch(`${SIGNALS_URL}?t=${Date.now()}`);
-        if (!res.ok) throw new Error("Could not find signals.json");
         const data = await res.json();
         
-        // 1. SIGNAL & ALERT LOGIC
-        const sigName = data.ai_signal_name || "INITIALIZING";
-        const wrapper = document.getElementById('ai-signal-wrapper');
-        const tickStatus = document.getElementById('tick-status');
+        // Update Timestamp
+        const now = new Date();
+        document.getElementById('last-update').innerText = now.toLocaleString() + " GMT+1";
 
-        if (sigName === "CRITICAL") {
-            if (wrapper) wrapper.classList.add('pulse-alert');
-            if (lastSignal !== "CRITICAL") alertSound.play();
-            if (tickStatus) { tickStatus.innerText = "CRITICAL"; tickStatus.style.color = "#ef4444"; }
-        } else {
-            if (wrapper) wrapper.classList.remove('pulse-alert');
-            if (tickStatus) { tickStatus.innerText = "OK"; tickStatus.style.color = "#f59e0b"; }
-            
-          // Add this inside your syncTerminal function
-        const sessionKey = "STI-" + Math.random().toString(36).substring(2, 10).toUpperCase();
-        const securityIdEl = document.getElementById('security-id');
-            if (securityIdEl) securityIdEl.innerText = sessionKey;  
-        }
-        lastSignal = sigName;
-
-        // 2. TEXT UPDATES (NAME, DRIVER, OUTLOOK, DIRECTIVE)
-        const updateText = (id, value) => {
-            const el = document.getElementById(id);
-            if (el && value) el.innerText = value;
-        };
-
-        updateText('ai-signal-name', sigName);
-        updateText('signal-driver', data.technical_driver || data.ai_primary_driver);
-        updateText('market-outlook', data.market_outlook);
-        updateText('signal-action', data.safetrade_directive || data.ai_safetrade_action);
+        // UI Updates
+        document.getElementById('ai-signal-name').innerText = data.ai_signal_name;
+        document.getElementById('market-outlook').innerText = data.market_outlook;
+        document.getElementById('signal-driver').innerText = data.ai_primary_driver;
+        document.getElementById('signal-action').innerText = data.ai_safetrade_action;
         
-        // 3. TICKER UPDATES
-        updateText('tick-btc', data.btc_price);
-        updateText('tick-dxy', data.dxy_value);
+        // Tickers
+        document.getElementById('tick-btc').innerText = data.btc_price;
+        document.getElementById('tick-dxy').innerText = data.dxy_value;
+        
+        // Sentiment
+        const val = parseInt(data.investor_sentiment);
+        document.getElementById('sentiment-fill').style.width = val + "%";
+        document.getElementById('sentiment-value').innerText = val + "%";
 
-        // 4. QUICK PULSE LIST UPDATER
+        // Quick Pulse
         const pulseList = document.getElementById('pulse-list');
-        if (pulseList && data.quick_pulse && Array.isArray(data.quick_pulse)) {
-            pulseList.innerHTML = data.quick_pulse
-                .map(headline => `<li>${headline}</li>`)
-                .join('');
+        if (pulseList && data.quick_pulse) {
+            pulseList.innerHTML = data.quick_pulse.map(h => 
+                `<li style="background: rgba(30, 41, 59, 0.4); margin-bottom: 8px; padding: 12px; border-radius: 6px; border-left: 3px solid #f59e0b; font-size: 13px; color: #cbd5e1;">${h}</li>`
+            ).join('');
         }
 
-        // 5. INVESTOR SENTIMENT BAR
-        const sentimentBar = document.getElementById('sentiment-fill');
-        const sentimentVal = document.getElementById('sentiment-value');
-        if (sentimentBar && data.investor_sentiment) {
-            sentimentBar.style.width = data.investor_sentiment + "%";
-            if (sentimentVal) sentimentVal.innerText = data.investor_sentiment + "%";
-            
-            // Color the bar: Red if fearful (<40), Green if greedy (>60)
-            if (data.investor_sentiment < 40) sentimentBar.style.background = "#ef4444";
-            else if (data.investor_sentiment > 60) sentimentBar.style.background = "#22c55e";
-            else sentimentBar.style.background = "var(--accent)";
-        }
-
-    } catch (e) { 
-        console.error("SafeTrade Sync Error:", e); 
-    }
+    } catch (e) { console.error("Sync Error:", e); }
 }
 
-// Volume & Audio Controls
-function enableAudio() {
-    alertSound.play().then(() => {
-        alertSound.pause();
-        alertSound.currentTime = 0;
-        const btn = document.getElementById('audio-toggle');
-        if (btn) {
-            btn.innerText = "🔊 TERMINAL AUDIO LIVE";
-            btn.style.borderColor = "#22c55e";
-        }
-    }).catch(err => console.log("Audio unlock failed:", err));
-}
-
-const volSlider = document.getElementById('volume-slider');
-if (volSlider) {
-    volSlider.addEventListener('input', (e) => { alertSound.volume = e.target.value; });
-}
-
-// Chart Initializer
-function initCharts() {
-    if (document.getElementById('tradingview_btc')) {
-        new TradingView.widget({ "autosize": true, "symbol": "BINANCE:BTCUSDT", "interval": "H", "theme": "dark", "container_id": "tradingview_btc", "hide_top_toolbar": true });
-    }
-    if (document.getElementById('tradingview_dxy')) {
-        new TradingView.widget({ "autosize": true, "symbol": "CAPITALCOM:DXY", "interval": "H", "theme": "dark", "container_id": "tradingview_dxy", "hide_top_toolbar": true });
-    }
-}
-
-// Launch Sequence
 document.addEventListener('DOMContentLoaded', () => {
     syncTerminal();
-    setInterval(syncTerminal, 300000); // Sync every 5 mins
-    initCharts();
+    setInterval(syncTerminal, 300000); // 5 mins
 });
-
-// Check for previous acceptance on page load
-document.addEventListener('DOMContentLoaded', () => {
-    const hasAccepted = localStorage.getItem('safetrade_accepted');
-    if (hasAccepted) {
-        document.getElementById('disclaimer-modal').classList.add('hidden');
-    }
-});
-
-function acceptDisclaimer() {
-    // Save acceptance to browser storage
-    localStorage.setItem('safetrade_accepted', 'true');
-    
-    // Hide the modal with a smooth fade
-    const modal = document.getElementById('disclaimer-modal');
-    modal.style.transition = "opacity 0.5s ease";
-    modal.style.opacity = "0";
-    
-    setTimeout(() => {
-        modal.classList.add('hidden');
-        // Trigger audio unlock if needed
-        if (typeof enableAudio === "function") enableAudio();
-    }, 500);
-    }
-
-    document.getElementById('enrollmentForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const btn = document.getElementById('submitBtn');
-        btn.disabled = true; document.getElementById('btnText').innerText = "Securing Spot...";
-        document.getElementById('btnSpinner').style.display = "inline-block";
-        sender('track', 'subscribe', { email: document.getElementById('email').value, firstname: document.getElementById('name').value });
-        setTimeout(() => { window.location.href = "https://amexpertconcept.github.io/safetrade-insider/"; }, 1200); 
-      });
 </script>
-
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
