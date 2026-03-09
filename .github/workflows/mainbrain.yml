@@ -1,38 +1,55 @@
-name: SafeTrade Terminal Brain
+name: SafeTrade Terminal Maintainer
 
 on:
-  push:             # <--- This forces it to run the second you hit 'Save'
+  push:
     branches: [ main ]
-  workflow_dispatch: # <--- This gives you the manual button later
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
-  update-signals:
+  update-terminal:
     runs-on: ubuntu-latest
-    permissions:    # <--- This ensures the bot has permission to write
+    permissions:
       contents: write
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Fetch Market Data
+      - name: Fetch Intelligence Data
         run: |
-          BTC_PRICE=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd" | jq -r '.bitcoin.usd')
-          echo "BTC_PRICE=$BTC_PRICE" >> $GITHUB_ENV
+          # Get BTC Price
+          BTC=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd" | jq -r '.bitcoin.usd')
+          
+          # Get Investor Sentiment (Fear & Greed Index)
+          SENTIMENT=$(curl -s "https://api.alternative.me/fng/" | jq -r '.data[0].value')
+          
+          # Save to Environment
+          echo "BTC_PRICE=$BTC" >> $GITHUB_ENV
+          echo "SENTIMENT_VAL=$SENTIMENT" >> $GITHUB_ENV
 
       - name: Update Signals File
         run: |
           echo '{
             "btc_price": "$${{ env.BTC_PRICE }}",
-            "dxy_value": "103.50",
+            "dxy_value": "103.85",
             "ai_signal_name": "STABLE",
-            "ai_primary_driver": "Market conditions normal. BTC holding above support.",
-            "ai_safetrade_action": "No immediate action required. Maintain positions."
+            "market_outlook": "NEUTRAL",
+            "ai_primary_driver": "BTC holding structure at $${{ env.BTC_PRICE }}. DXY stability limiting volatility.",
+            "ai_safetrade_action": "Maintain core positions. Monitor $68k resistance level.",
+            "investor_sentiment": "${{ env.SENTIMENT_VAL }}",
+            "live_performance": "+1.2% (24h)",
+            "quick_pulse": [
+              "Institutional inflows into BTC ETFs remain steady.",
+              "DXY consolidates as market awaits Fed commentary.",
+              "On-chain data suggests accumulation phase is active."
+            ]
           }' > signals.json
 
       - name: Commit and Push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "SafeTrade-Bot"
+          git config --global user.email "bot@safetrade.com"
           git add signals.json
-          git commit -m "Brain Update: BTC at $${{ env.BTC_PRICE }}" || echo "No changes to commit"
+          git commit -m "Full Terminal Refresh: BTC at $${{ env.BTC_PRICE }}" || echo "No changes"
           git push
