@@ -1,4 +1,4 @@
-name: SafeTrade Brain
+name: SafeTrade Terminal Brain
 on:
   schedule:
     - cron: '*/30 * * * *' # Runs every 30 minutes
