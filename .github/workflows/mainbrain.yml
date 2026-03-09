@@ -1,0 +1,38 @@
+name: SafeTrade Terminal Brain
+
+on:
+  push:             # <--- This forces it to run the second you hit 'Save'
+    branches: [ main ]
+  workflow_dispatch: # <--- This gives you the manual button later
+
+jobs:
+  update-signals:
+    runs-on: ubuntu-latest
+    permissions:    # <--- This ensures the bot has permission to write
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Fetch Market Data
+        run: |
+          BTC_PRICE=$(curl -s "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd" | jq -r '.bitcoin.usd')
+          echo "BTC_PRICE=$BTC_PRICE" >> $GITHUB_ENV
+
+      - name: Update Signals File
+        run: |
+          echo '{
+            "btc_price": "$${{ env.BTC_PRICE }}",
+            "dxy_value": "103.50",
+            "ai_signal_name": "STABLE",
+            "ai_primary_driver": "Market conditions normal. BTC holding above support.",
+            "ai_safetrade_action": "No immediate action required. Maintain positions."
+          }' > signals.json
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add signals.json
+          git commit -m "Brain Update: BTC at $${{ env.BTC_PRICE }}" || echo "No changes to commit"
+          git push
