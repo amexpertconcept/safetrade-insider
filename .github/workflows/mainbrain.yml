@@ -35,7 +35,7 @@ jobs:
             "dxy_value": "103.85",
             "ai_signal_name": "STABLE",
             "market_outlook": "NEUTRAL",
-            "ai_primary_driver": "BTC holding structure at $${{ env.BTC_PRICE }}. DXY stability limiting volatility.",
+            "ai_primary_driver": "BTC holding structure at ${{ env.BTC_PRICE }}. DXY stability limiting volatility.",
             "ai_safetrade_action": "Maintain core positions. Monitor $68k resistance level.",
             "investor_sentiment": "${{ env.SENTIMENT_VAL }}",
             "live_performance": "+1.2% (24h)",
