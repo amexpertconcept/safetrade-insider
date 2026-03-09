@@ -1,13 +1,7 @@
 {
-  "btc_price": "$0.00",
-  "dxy_value": "0.00",
-  "ai_signal_name": "INITIALIZING",
-  "ai_primary_driver": "System start-up: Aggregating macro-liquidity data...",
-  "ai_safetrade_action": "Monitor terminal for first intelligence directive.",
-  "investor_sentiment": "50",
-  "quick_pulse": [
-    "Analyzing global market liquidity...",
-    "Scanning DXY correlation regimes...",
-    "Awaiting institutional data feed..."
-  ]
+  "btc_price": "$67699",
+  "dxy_value": "103.50",
+  "ai_signal_name": "STABLE",
+  "ai_primary_driver": "Market conditions normal. BTC holding above support.",
+  "ai_safetrade_action": "No immediate action required. Maintain positions."
 }
