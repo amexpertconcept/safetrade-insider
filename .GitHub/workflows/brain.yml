@@ -1,9 +1,8 @@
-name: SafeTrade Terminal Brain
+name: Brain Alpha Test
 on:
-  schedule:
+ workflow_dispatch: # Allows you to run it manually
+ schedule:
     - cron: '*/30 * * * *' # Runs every 30 minutes
-  workflow_dispatch: # Allows you to run it manually
-
 jobs:
   update-signals:
     runs-on: ubuntu-latest
@@ -32,4 +31,4 @@ jobs:
           git config --global user.email "bot@safetrade.com"
           git add signals.json
           git commit -m "Brain Update: BTC at $${{ env.BTC_PRICE }}"
-          git push 
+          git push
