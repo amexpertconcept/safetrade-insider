@@ -1,4 +1,4 @@
-name: SafeTrade Brain run-name: Terminal 01
+name: Brain Final Test 01
 on:
  workflow_dispatch: # Allows you to run it manually
  schedule:
