@@ -1,7 +1,15 @@
 {
-  "btc_price": "$67459",
-  "dxy_value": "103.50",
+  "btc_price": "$67846",
+  "dxy_value": "103.85",
   "ai_signal_name": "STABLE",
-  "ai_primary_driver": "Market conditions normal. BTC holding above support.",
-  "ai_safetrade_action": "No immediate action required. Maintain positions."
+  "market_outlook": "NEUTRAL",
+  "ai_primary_driver": "BTC holding structure at $67846. DXY stability limiting volatility.",
+  "ai_safetrade_action": "Maintain core positions. Monitor $68k resistance level.",
+  "investor_sentiment": "8",
+  "live_performance": "+1.2% (24h)",
+  "quick_pulse": [
+    "Institutional inflows into BTC ETFs remain steady.",
+    "DXY consolidates as market awaits Fed commentary.",
+    "On-chain data suggests accumulation phase is active."
+  ]
 }
