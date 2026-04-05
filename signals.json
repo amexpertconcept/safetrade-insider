@@ -1,11 +1,11 @@
 {
-  "btc_price": "$67316",
+  "btc_price": "$67009",
   "dxy_value": "103.85",
   "ai_signal_name": "STABLE",
   "market_outlook": "NEUTRAL",
-  "ai_primary_driver": "BTC holding structure at 67316. DXY stability limiting volatility.",
+  "ai_primary_driver": "BTC holding structure at 67009. DXY stability limiting volatility.",
   "ai_safetrade_action": "Maintain core positions. Monitor $68k resistance level.",
-  "investor_sentiment": "11",
+  "investor_sentiment": "12",
   "live_performance": "+1.2% (24h)",
   "quick_pulse": [
     "Institutional inflows into BTC ETFs remain steady.",
