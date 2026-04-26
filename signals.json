@@ -1,9 +1,9 @@
 {
-  "btc_price": "$78082",
+  "btc_price": "$78032",
   "dxy_value": "103.85",
   "ai_signal_name": "STABLE",
   "market_outlook": "NEUTRAL",
-  "ai_primary_driver": "BTC holding structure at 78082. DXY stability limiting volatility.",
+  "ai_primary_driver": "BTC holding structure at 78032. DXY stability limiting volatility.",
   "ai_safetrade_action": "Maintain core positions. Monitor $68k resistance level.",
   "investor_sentiment": "33",
   "live_performance": "+1.2% (24h)",
